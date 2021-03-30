@@ -1,4 +1,3 @@
-import styles from "../styles/Home.module.css";
 import styled from "styled-components";
 import { color, space } from "styled-system";
 
@@ -6,10 +5,20 @@ const Box = styled.div`
   ${color}
   ${space}
 `;
-export default function Home() {
+
+const Button = styled.button`
+  ${color}
+  ${space}
+  font-size: 1rem;
+`;
+
+export default function Home({ toggleTheme }) {
   return (
-    <Box color="blue" bg="#222" p="2">
+    <Box color="primary" bg="secondary" p="2">
       <h1>Hello</h1>
+      <Button onClick={toggleTheme} p="2">
+        toggle theme
+      </Button>
     </Box>
   );
 }
