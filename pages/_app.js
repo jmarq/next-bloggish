@@ -2,6 +2,8 @@ import "../styles/globals.css";
 import { ThemeProvider } from "styled-components";
 import React, { useState } from "react";
 import { MDXProvider } from "@mdx-js/react";
+import H1 from "components/H1";
+
 const theme1 = {
   colors: {
     primary: "cornflowerblue",
@@ -16,6 +18,10 @@ const theme2 = {
   },
 };
 
+const components = {
+  h1: H1,
+};
+
 function MyApp({ Component, pageProps }) {
   const [currentTheme, setTheme] = useState(theme1);
   const toggleTheme = () => {
@@ -27,7 +33,7 @@ function MyApp({ Component, pageProps }) {
   };
   return (
     <ThemeProvider theme={currentTheme}>
-      <MDXProvider>
+      <MDXProvider components={components}>
         <Component toggleTheme={toggleTheme} {...pageProps} />
       </MDXProvider>
     </ThemeProvider>
