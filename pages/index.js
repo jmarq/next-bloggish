@@ -1,22 +1,11 @@
-import styled from "styled-components";
-import { color, space } from "styled-system";
-
-const Box = styled.div`
-  ${color}
-  ${space}
-`;
-
-const Button = styled.button`
-  ${color}
-  ${space}
-  font-size: 1rem;
-`;
+import Box from 'components/Box';
+import Button from 'components/Button';
 
 export default function Home({ toggleTheme }) {
   return (
     <Box color="primary" bg="secondary" p="2">
       <h1>Hello</h1>
-      <Button onClick={toggleTheme} p="2">
+      <Button onClick={toggleTheme} color="secondary" bg="primary" p="2">
         toggle theme
       </Button>
     </Box>
