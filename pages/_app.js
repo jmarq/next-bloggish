@@ -3,6 +3,8 @@ import { ThemeProvider } from "styled-components";
 import React, { useState } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import H1 from "components/H1";
+import P from "components/P";
+import Meme from "components/Meme";
 
 const theme1 = {
   colors: {
@@ -20,6 +22,8 @@ const theme2 = {
 
 const components = {
   h1: H1,
+  p: P,
+  blockquote: Meme,
 };
 
 function MyApp({ Component, pageProps }) {
