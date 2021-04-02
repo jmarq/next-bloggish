@@ -1,13 +1,13 @@
 import styled from "styled-components";
-
+import {ReactElement} from 'react';
 const MemeImage = styled.img`
   width: 350px;
   height: 350px;
   display: block;
 `;
 
-const Meme = ({ children }) => {
-  let stringChildren;
+const Meme = ({ children } : {children: ReactElement}) => {
+  let stringChildren : string;
   let currentChildren = children;
   while (currentChildren.props?.children) {
     currentChildren = currentChildren.props.children;

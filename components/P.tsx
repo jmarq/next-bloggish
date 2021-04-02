@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { color, space } from "styled-system";
+import { color, space, ColorProps, SpaceProps } from "styled-system";
 
-const P = styled.p`
+interface PProps extends ColorProps, SpaceProps {};
+
+const P = styled.p<PProps>`
   ${color}
   ${space}
 `;

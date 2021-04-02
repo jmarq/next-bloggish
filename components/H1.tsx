@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { color, space } from "styled-system";
+import { color, space, ColorProps, SpaceProps } from "styled-system";
 
-const H1 = styled.h1`
+interface H1Props extends ColorProps, SpaceProps {}
+
+const H1 = styled.h1<H1Props>`
   ${color}
   ${space}
   font-size: 2rem;
