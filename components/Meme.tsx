@@ -1,13 +1,19 @@
 import styled from "styled-components";
-import {ReactElement} from 'react';
+import { ReactElement } from "react";
 const MemeImage = styled.img`
   width: 350px;
   height: 350px;
   display: block;
 `;
 
-const Meme = ({ children } : {children: ReactElement}) => {
-  let stringChildren : string;
+const Meme = ({
+  children,
+  meme = "aag",
+}: {
+  children: ReactElement;
+  meme: string;
+}) => {
+  let stringChildren: string;
   let currentChildren = children;
   while (currentChildren.props?.children) {
     currentChildren = currentChildren.props.children;
@@ -18,8 +24,7 @@ const Meme = ({ children } : {children: ReactElement}) => {
     stringChildren = currentChildren;
   }
   const joinedChildren = stringChildren.trim().split(" ").join("_");
-  const whichMeme = "aag";
-  const memeUrl = `https://api.memegen.link/images/${whichMeme}/_/${joinedChildren}.jpg`;
+  const memeUrl = `https://api.memegen.link/images/${meme}/_/${joinedChildren}.jpg`;
   return (
     <MemeImage src={memeUrl} alt={`meme of ${stringChildren}`}></MemeImage>
   );
