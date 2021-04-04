@@ -5,20 +5,7 @@ import { MDXProvider } from "@mdx-js/react";
 import H1 from "components/H1";
 import P from "components/P";
 import Meme from "components/Meme";
-
-const theme1 = {
-  colors: {
-    primary: "cornflowerblue",
-    secondary: "#222",
-  },
-};
-
-const theme2 = {
-  colors: {
-    primary: "#bfa",
-    secondary: "#003",
-  },
-};
+import {theme1, theme2} from "theme";
 
 const components = {
   h1: H1,
