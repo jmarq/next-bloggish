@@ -5,7 +5,8 @@ export const theme1 = {
   },
   shadows: {
     medium: "5px 5px 5px cornflowerblue"
-  }
+  },
+  breakpoints: ["500px","800px"]
 };
 
 export const theme2 = {
