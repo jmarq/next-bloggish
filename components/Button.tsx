@@ -6,6 +6,7 @@ const Button = styled.button<ButtonProps>`
   ${color}
   ${space}
   font-size: 1rem;
+  font-weight: bold;
 `;
 
 export default Button;
