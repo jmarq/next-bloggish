@@ -7,6 +7,7 @@ const Button = styled.button<ButtonProps>`
   ${space}
   font-size: 1rem;
   font-weight: bold;
+  border-radius: 0.25rem;
 `;
 
 export default Button;

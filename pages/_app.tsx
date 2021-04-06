@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import H1 from "components/H1";
 import P from "components/P";
+import Button from "components/Button";
 import Meme from "components/Meme";
 import { theme1, theme2 } from "theme";
 
@@ -39,6 +40,9 @@ function MyApp({ Component, pageProps }) {
     <ThemeProvider theme={currentTheme}>
       <GlobalWrapper>
         <MDXProvider components={components}>
+          <Button onClick={toggleTheme} color="secondary" bg="primary" p="2">
+            toggle theme
+          </Button>
           <Component toggleTheme={toggleTheme} {...pageProps} />
         </MDXProvider>
       </GlobalWrapper>
