@@ -1,6 +1,6 @@
-import Box from 'components/Box';
-import Button from 'components/Button';
-import {Fragment} from 'react';
+import Box from "components/Box";
+import Button from "components/Button";
+import { Fragment } from "react";
 
 export default function Home({ toggleTheme }) {
   return (
@@ -12,7 +12,10 @@ export default function Home({ toggleTheme }) {
         </Button>
       </Box>
       <Box p={["2", "4"]}>
-        What's the goal here? To play with styled components/system and mdx? to actually publish content?
+        What's the goal here? To play with styled components/system and mdx? to
+        actually publish content?
+        <Box p={["2", "4"]}>nested box</Box>
+        <Box p={["2", "4"]}>another nested box</Box>
       </Box>
     </>
   );
