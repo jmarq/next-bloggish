@@ -3,7 +3,7 @@
 //  maybe we can just pass in color scheme as an arg.
 export const theme1Generator = () => {
   const colors = {
-    primary: "cornflowerblue",
+    primary: "#95bbff",
     secondary: "#222",
     accent: "#ff5acb",
   };
