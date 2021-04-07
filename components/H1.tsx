@@ -7,14 +7,14 @@ const H1 = styled.h1<H1Props>`
   ${color}
   ${space}
   font-size: 2rem;
-  border-bottom: 4px solid red;
+  border-bottom: 4px solid ${({theme}) => theme.colors.accent};
 `;
 
 H1.defaultProps = {
   color: 'primary',
   bg: 'secondary',
   p: 2,
-  mb: 1,
+  mb: 2,
 }
 
 export default H1;
