@@ -1,7 +1,6 @@
 import Box from "components/Box";
 import Button from "components/Button";
 import H1 from "components/H1";
-import { Fragment } from "react";
 
 export default function Home({ toggleTheme }) {
   return (
