@@ -21,6 +21,7 @@ Box.defaultProps = {
   color: "primary",
   bg: "secondary",
   boxShadow: "medium",
+  p: ["2", "4"],
 };
 
 export default Box;
