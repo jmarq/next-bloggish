@@ -8,6 +8,7 @@ const Button = styled.button<ButtonProps>`
   font-size: 1rem;
   font-weight: bold;
   border-radius: 0.25rem;
+  cursor: pointer;
 `;
 
 export default Button;
