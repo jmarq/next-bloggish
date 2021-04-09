@@ -10,7 +10,7 @@ const P = styled.p<PProps>`
 
 P.defaultProps = {
   color: 'secondary',
-  bg: 'white',
+  bg: 'primary',
   p: 2,
   mb: 1,
 }

@@ -9,7 +9,14 @@ import Button from "components/Button";
 import Meme from "components/Meme";
 import { theme1, theme2 } from "theme";
 
+const MDXWrapper = (props) => {
+  return(
+    <div className="mdx-wrapper">{props.children}</div>
+  )
+}
+
 const components = {
+  wrapper: MDXWrapper,
   h1: H1,
   p: P,
   blockquote: Meme,
