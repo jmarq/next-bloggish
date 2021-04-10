@@ -1,3 +1,4 @@
+const { createWriteStream, writeFileSync } = require("fs");
 const glob = require("glob");
 
 const validExtensions = /\.(ts|js|md)x?$/;
@@ -13,5 +14,8 @@ glob("pages/**/*", (er, files) => {
   stripped = files.map((path) => path.slice(6));
   matches = stripped.filter(isValidPath);
   matches = matches.map(path=> path.replace(validExtensions, ""));
+  matches = matches.map(path=> path.replace("index", "/"));
+
   console.log(matches);
+  writeFileSync("helpers/slugs.json", JSON.stringify(matches));
 });
