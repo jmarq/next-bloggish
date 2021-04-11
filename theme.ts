@@ -12,10 +12,12 @@ export const theme1Generator = () => {
   };
   const breakpoints = ["500px", "800px"];
 
+  const nivoColors = "nivo";
   return {
     colors,
     shadows,
     breakpoints,
+    nivoColors
   };
 };
 
@@ -29,10 +31,12 @@ export const theme2Generator = () => {
     medium: `5px 5px 5px ${colors.accent}`,
   };
   const breakpoints = ["500px", "800px"];
+  const nivoColors = "accent";
   return {
     colors,
     shadows,
     breakpoints,
+    nivoColors
   };
 };
 

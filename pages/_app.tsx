@@ -14,7 +14,7 @@ import Box from "components/Box";
 import Meme from "components/Meme";
 
 const MDXWrapper = (props) => {
-  console.log({ mdxWrapperProps: props });
+  // console.log({ mdxWrapperProps: props });
   const { meta, children } = props;
   return (
     <>

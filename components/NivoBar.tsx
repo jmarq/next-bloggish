@@ -140,7 +140,7 @@ const NivoBar = (
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      colors={{ scheme: "nivo" }}
+      colors={{ scheme: themeContext?.nivoColors || "nivo" }}
       defs={[
         {
           id: "dots",
