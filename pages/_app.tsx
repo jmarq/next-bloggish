@@ -9,6 +9,7 @@ import { theme1, theme2 } from "theme";
 import H1 from "components/H1";
 import P from "components/P";
 import Button from "components/Button";
+import Box from "components/Box";
 import Meme from "components/Meme";
 
 const MDXWrapper = (props) => {
@@ -27,7 +28,7 @@ const MDXWrapper = (props) => {
 const components = {
   wrapper: MDXWrapper,
   h1: H1,
-  p: P,
+  p: Box,
   blockquote: Meme,
 };
 
