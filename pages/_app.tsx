@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from "styled-components";
 import css from "@styled-system/css";
 import React, { useState } from "react";
 import { MDXProvider } from "@mdx-js/react";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import { theme1, theme2 } from "theme";
 import H1 from "components/H1";
@@ -13,17 +13,19 @@ import Box from "components/Box";
 import Meme from "components/Meme";
 
 const MDXWrapper = (props) => {
-  console.log({mdxWrapperProps: props})
-  const {meta, children} = props;
-  return(
+  console.log({ mdxWrapperProps: props });
+  const { meta, children } = props;
+  return (
     <>
       <Head>
         <title>{meta?.title || "a post"}</title>
       </Head>
-      <div className="mdx-wrapper">{children}</div>
+      <div className="mdx-wrapper">
+        <Box>{children}</Box>
+      </div>
     </>
-  )
-}
+  );
+};
 
 const components = {
   wrapper: MDXWrapper,
@@ -43,6 +45,17 @@ const GlobalWrapper = styled.div`
   );
 `;
 
+const ContentWrapper = styled.div`
+  max-width: 960px;
+  margin: auto;
+`;
+
+const Layout = ({ children }) => (
+  <GlobalWrapper>
+    <ContentWrapper>{children}</ContentWrapper>
+  </GlobalWrapper>
+);
+
 function MyApp({ Component, pageProps }) {
   const [currentTheme, setTheme] = useState(theme1);
   const router = useRouter();
@@ -56,15 +69,24 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={currentTheme}>
-      <GlobalWrapper>
+      <Layout>
         <MDXProvider components={components}>
-          <Button color="secondary" bg="primary" p="2" onClick={()=>{router.back()}}>Back</Button>
+          <Button
+            color="secondary"
+            bg="primary"
+            p="2"
+            onClick={() => {
+              router.back();
+            }}
+          >
+            Back
+          </Button>
           <Button onClick={toggleTheme} color="secondary" bg="primary" p="2">
             toggle theme
           </Button>
           <Component toggleTheme={toggleTheme} {...pageProps} />
         </MDXProvider>
-      </GlobalWrapper>
+      </Layout>
     </ThemeProvider>
   );
 }
