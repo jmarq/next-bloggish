@@ -125,7 +125,7 @@ const NivoBar = (
     <ResponsiveBar
       theme={{
         textColor: themeContext.colors.primary,
-        fontSize: "1rem",
+        fontSize: 16,
         tooltip: {
           container: {
             background: themeContext.colors.secondary,
