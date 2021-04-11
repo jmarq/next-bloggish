@@ -4,6 +4,7 @@ import css from "@styled-system/css";
 import React, { useState } from "react";
 import { MDXProvider } from "@mdx-js/react";
 import {useRouter} from "next/router";
+import Head from "next/head";
 import { theme1, theme2 } from "theme";
 import H1 from "components/H1";
 import P from "components/P";
@@ -11,8 +12,15 @@ import Button from "components/Button";
 import Meme from "components/Meme";
 
 const MDXWrapper = (props) => {
+  console.log({mdxWrapperProps: props})
+  const {meta, children} = props;
   return(
-    <div className="mdx-wrapper">{props.children}</div>
+    <>
+      <Head>
+        <title>{meta?.title || "a post"}</title>
+      </Head>
+      <div className="mdx-wrapper">{children}</div>
+    </>
   )
 }
 
