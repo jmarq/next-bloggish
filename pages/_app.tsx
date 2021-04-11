@@ -8,6 +8,7 @@ import Head from "next/head";
 import { theme1, theme2 } from "theme";
 import H1 from "components/H1";
 import P from "components/P";
+import UL from "components/UL";
 import Button from "components/Button";
 import Box from "components/Box";
 import Meme from "components/Meme";
@@ -31,6 +32,7 @@ const components = {
   wrapper: MDXWrapper,
   h1: H1,
   p: Box,
+  ul: UL,
   blockquote: Meme,
 };
 
