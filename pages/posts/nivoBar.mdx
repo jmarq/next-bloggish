@@ -1,13 +1,28 @@
 import NivoBar from "components/NivoBar";
 
 export const meta = {
-  title: "bar charts or nah?"
-}
+  title: "bar charts or nah?",
+};
 
 # I wonder how nicely the Nivo.js examples play with Next.js/MDX
 
-<div style={{height: 500}}>
-  <NivoBar/>
+<div style={{display: "flex"}}>
+  <div style={{ height: 500, width: "50%" }}>
+    <NivoBar />
+  </div>
+
+  <div style={{ height: 500, width: "50%" }}>
+    <NivoBar
+      data={[
+        { name: "Jim", age: 34 },
+        { name: "Jam", age: 44 },
+        { name: "Jum", age: 54 },
+      ]}
+      keys={["age"]}
+      indexBy="name"
+      yLabel="age"
+    />
+  </div>
 </div>
 
 that's pretty cool that I can just plop a chart in the middle of a "markdown" page.
