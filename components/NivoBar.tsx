@@ -17,6 +17,7 @@ const NivoBar = ({
   const themeContext = useContext(ThemeContext);
   const startingKeys = keys;
   const [currentKeys, setCurrentKeys] = useState(startingKeys);
+  const [barColor, setBarColor] = useState(undefined);
   return (
     <ResponsiveBar
       theme={{
@@ -36,7 +37,7 @@ const NivoBar = ({
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
-      colors={{ scheme: themeContext?.nivoColors || "nivo" }}
+      colors={barColor || { scheme: themeContext?.nivoColors || "nivo" }}
       onClick={(node, event) => {
         console.log(node, event);
       }}
@@ -113,11 +114,15 @@ const NivoBar = ({
           itemOpacity: 0.85,
           symbolSize: 20,
           onClick: (data, ev) => {
+            // data has color info in it.
+            // perhaps we could use this to keep the bar colors consistent after removing other keys.
             console.log(data, ev);
             if (JSON.stringify(currentKeys) == JSON.stringify([data.label])) {
               setCurrentKeys(startingKeys);
+              setBarColor(undefined);
             } else {
               setCurrentKeys([data.label]);
+              setBarColor(data.color)
             }
           },
           effects: [
