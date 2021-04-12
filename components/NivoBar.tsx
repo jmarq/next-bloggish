@@ -2,7 +2,7 @@
 // yarn add @nivo/core @nivo/bar
 import { ResponsiveBar, ResponsiveBarCanvas } from "@nivo/bar";
 import { ThemeContext } from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import foodData from "data/food.json";
 
 // make sure parent container have a defined height when using
@@ -15,6 +15,8 @@ const NivoBar = ({
   yLabel = "hot dog",
 }) => {
   const themeContext = useContext(ThemeContext);
+  const startingKeys = keys;
+  const [currentKeys, setCurrentKeys] = useState(startingKeys);
   return (
     <ResponsiveBar
       theme={{
@@ -28,13 +30,16 @@ const NivoBar = ({
         },
       }}
       data={data}
-      keys={keys}
+      keys={currentKeys}
       indexBy={indexBy}
       margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
       colors={{ scheme: themeContext?.nivoColors || "nivo" }}
+      onClick={(node, event) => {
+        console.log(node, event);
+      }}
       // defs={[
       //   {
       //     id: "dots",
@@ -107,6 +112,14 @@ const NivoBar = ({
           itemDirection: "left-to-right",
           itemOpacity: 0.85,
           symbolSize: 20,
+          onClick: (data, ev) => {
+            console.log(data, ev);
+            if (JSON.stringify(currentKeys) == JSON.stringify([data.label])) {
+              setCurrentKeys(startingKeys);
+            } else {
+              setCurrentKeys([data.label]);
+            }
+          },
           effects: [
             {
               on: "hover",
