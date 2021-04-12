@@ -1,6 +1,6 @@
 // install (please make sure versions match peerDependencies)
 // yarn add @nivo/core @nivo/bar
-import { ResponsiveBar } from "@nivo/bar";
+import { ResponsiveBar, ResponsiveBarCanvas } from "@nivo/bar";
 import { ThemeContext } from "styled-components";
 import { useContext } from "react";
 import foodData from "data/food.json";
@@ -35,26 +35,26 @@ const NivoBar = ({
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
       colors={{ scheme: themeContext?.nivoColors || "nivo" }}
-      defs={[
-        {
-          id: "dots",
-          type: "patternDots",
-          background: "inherit",
-          color: "#38bcb2",
-          size: 4,
-          padding: 1,
-          stagger: true,
-        },
-        {
-          id: "lines",
-          type: "patternLines",
-          background: "inherit",
-          color: "#eed312",
-          rotation: -45,
-          lineWidth: 6,
-          spacing: 10,
-        },
-      ]}
+      // defs={[
+      //   {
+      //     id: "dots",
+      //     type: "patternDots",
+      //     background: "inherit",
+      //     color: "#38bcb2",
+      //     size: 4,
+      //     padding: 1,
+      //     stagger: true,
+      //   },
+      //   {
+      //     id: "lines",
+      //     type: "patternLines",
+      //     background: "inherit",
+      //     color: "#eed312",
+      //     rotation: -45,
+      //     lineWidth: 6,
+      //     spacing: 10,
+      //   },
+      // ]}
       // fill={[
       //   {
       //     match: {

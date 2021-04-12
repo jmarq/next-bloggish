@@ -6,12 +6,12 @@ export const meta = {
 
 # I wonder how nicely the Nivo.js examples play with Next.js/MDX
 
-<div style={{display: "flex"}}>
-  <div style={{ height: 500, width: "50%" }}>
+<div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-around"}}>
+  <div style={{ height: 500, width: "99%" , maxWidth: "440px"}}>
     <NivoBar />
   </div>
 
-  <div style={{ height: 500, width: "50%" }}>
+  <div style={{ height: 500, width: "99%",  maxWidth: "440px"}}>
     <NivoBar
       data={[
         { name: "Jim", age: 34 },
