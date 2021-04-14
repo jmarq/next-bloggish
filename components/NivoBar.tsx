@@ -1,6 +1,12 @@
 // install (please make sure versions match peerDependencies)
 // yarn add @nivo/core @nivo/bar
-import { ResponsiveBar, ResponsiveBarCanvas } from "@nivo/bar";
+import {
+  ResponsiveBar,
+  ResponsiveBarCanvas,
+  BarProps,
+  BarCanvasProps,
+  Data,
+} from "@nivo/bar";
 import { ThemeContext } from "styled-components";
 import { useContext, useState } from "react";
 import foodData from "data/food.json";
@@ -13,13 +19,28 @@ const NivoBar = ({
   keys = ["hot dog", "burger", "sandwich", "kebab", "fries", "donut"],
   indexBy = "country",
   yLabel = "hot dog",
+  canvas = false,
 }) => {
   const themeContext = useContext(ThemeContext);
   const startingKeys = keys;
   const [currentKeys, setCurrentKeys] = useState(startingKeys);
   const [barColor, setBarColor] = useState(undefined);
+
+  const animationProps = canvas
+    ? {}
+    : {
+        animate: true,
+        motionStiffness: 90,
+        motionDamping: 15,
+      };
+
+  let ChartElement = ResponsiveBar;
+  if (canvas) {
+    ChartElement = ResponsiveBarCanvas;
+  }
+
   return (
-    <ResponsiveBar
+    <ChartElement
       theme={{
         textColor: themeContext.colors.primary,
         fontSize: 16,
@@ -41,40 +62,6 @@ const NivoBar = ({
       onClick={(node, event) => {
         console.log(node, event);
       }}
-      // defs={[
-      //   {
-      //     id: "dots",
-      //     type: "patternDots",
-      //     background: "inherit",
-      //     color: "#38bcb2",
-      //     size: 4,
-      //     padding: 1,
-      //     stagger: true,
-      //   },
-      //   {
-      //     id: "lines",
-      //     type: "patternLines",
-      //     background: "inherit",
-      //     color: "#eed312",
-      //     rotation: -45,
-      //     lineWidth: 6,
-      //     spacing: 10,
-      //   },
-      // ]}
-      // fill={[
-      //   {
-      //     match: {
-      //       id: "fries",
-      //     },
-      //     id: "dots",
-      //   },
-      //   {
-      //     match: {
-      //       id: "sandwich",
-      //     },
-      //     id: "lines",
-      //   },
-      // ]}
       borderColor={{ from: "color", modifiers: [["darker", 1.6]] }}
       axisTop={null}
       axisRight={null}
@@ -82,7 +69,6 @@ const NivoBar = ({
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        // indexBy?
         legend: indexBy,
         legendPosition: "middle",
         legendOffset: 32,
@@ -91,7 +77,6 @@ const NivoBar = ({
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        // keys[0] or ??
         legend: yLabel,
         legendPosition: "middle",
         legendOffset: -40,
@@ -122,7 +107,7 @@ const NivoBar = ({
               setBarColor(undefined);
             } else {
               setCurrentKeys([data.label]);
-              setBarColor(data.color)
+              setBarColor(data.color);
             }
           },
           effects: [
@@ -135,9 +120,7 @@ const NivoBar = ({
           ],
         },
       ]}
-      animate={true}
-      motionStiffness={90}
-      motionDamping={15}
+      {...animationProps}
     />
   );
 };
