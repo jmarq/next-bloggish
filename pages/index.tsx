@@ -7,19 +7,19 @@ import Link from "next/link";
 export default function Home({ toggleTheme }) {
   return (
     <>
-      <Box color="primary" bg="secondary" p={["2", "4"]} boxShadow="medium">
+      <Box>
         <H1>Hello</H1>
         <Button onClick={toggleTheme} color="secondary" bg="primary" p="2">
           toggle theme
         </Button>
       </Box>
-      <Box p={["2", "4"]}>
+      <Box>
         What's the goal here? To play with styled components/system and mdx? to
         actually publish content?
-        <Box p={["2", "4"]}>nested box</Box>
-        <Box p={["2", "4"]}>another nested box</Box>
+        <Box>nested box</Box>
+        <Box>another nested box</Box>
       </Box>
-      <Box p={["2", "4"]}>
+      <Box>
         <ul>
           {slugs.map((slug) => (
             <li key={slug}>
