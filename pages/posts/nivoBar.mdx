@@ -8,11 +8,11 @@ export const meta = {
 # I wonder how nicely the Nivo.js examples play with Next.js/MDX
 
 <div style={{display: "flex",  flexWrap: "wrap", justifyContent: "space-around"}}>
-  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"], flexGrow: 1})}>
+  <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
     <NivoBar />
   </div>
 
-  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"], flexGrow: 1})}>
+  <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
     <NivoBar
       data={[
         { name: "Jim", age: 34 },
@@ -25,7 +25,7 @@ export const meta = {
       canvas
     />
   </div>
-  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"], flexGrow: 1})}>
+  <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
     <NivoBar
       data={[
         { name: "Jim", age: 34 },
@@ -38,6 +38,29 @@ export const meta = {
       canvas
     />
   </div>
+  <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
+    <NivoBar />
+  </div>
+  <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 0, flexBasis: "100%"})}>
+    <NivoBar />
+  </div>
+  <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
+    <NivoBar
+      data={[
+        { name: "Jim", age: 34 },
+        { name: "Jam", age: 44 },
+        { name: "Jum", age: 54 },
+      ]}
+      keys={["age"]}
+      indexBy="name"
+      yLabel="age"
+      canvas
+    />
+  </div>
+   <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
+    <NivoBar />
+  </div>
+  
 </div>
 
 that's pretty cool that I can just plop a chart in the middle of a "markdown" page.
