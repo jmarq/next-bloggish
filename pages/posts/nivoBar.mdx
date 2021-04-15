@@ -1,4 +1,5 @@
 import NivoBar from "components/NivoBar";
+import css from "@styled-system/css";
 
 export const meta = {
   title: "bar charts or nah?",
@@ -7,11 +8,11 @@ export const meta = {
 # I wonder how nicely the Nivo.js examples play with Next.js/MDX
 
 <div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-around"}}>
-  <div style={{ height: 500, width: "99%" , maxWidth: "440px"}}>
+  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"]})}>
     <NivoBar />
   </div>
 
-  <div style={{ height: 500, width: "99%",  maxWidth: "440px"}}>
+  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"]})}>
     <NivoBar
       data={[
         { name: "Jim", age: 34 },

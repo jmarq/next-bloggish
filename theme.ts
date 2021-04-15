@@ -10,7 +10,7 @@ export const theme1Generator = () => {
   const shadows = {
     medium: `5px 5px 5px ${colors.accent}`,
   };
-  const breakpoints = ["500px", "800px"];
+  const breakpoints = ["500px", "960px"];
 
   const nivoColors = "nivo";
   return {
@@ -30,7 +30,7 @@ export const theme2Generator = () => {
   const shadows = {
     medium: `5px 5px 5px ${colors.accent}`,
   };
-  const breakpoints = ["500px", "800px"];
+  const breakpoints = ["500px", "960px"];
   const nivoColors = "accent";
   return {
     colors,
