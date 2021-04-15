@@ -7,12 +7,25 @@ export const meta = {
 
 # I wonder how nicely the Nivo.js examples play with Next.js/MDX
 
-<div style={{display: "flex", flexWrap: "wrap", justifyContent: "space-around"}}>
-  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"]})}>
+<div style={{display: "flex",  flexWrap: "wrap", justifyContent: "space-around"}}>
+  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"], flexGrow: 1})}>
     <NivoBar />
   </div>
 
-  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"]})}>
+  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"], flexGrow: 1})}>
+    <NivoBar
+      data={[
+        { name: "Jim", age: 34 },
+        { name: "Jam", age: 44 },
+        { name: "Jum", age: 54 },
+      ]}
+      keys={["age"]}
+      indexBy="name"
+      yLabel="age"
+      canvas
+    />
+  </div>
+  <div style={{ height: 500}} css={css({width: ["100%","100%", "50%"], flexGrow: 1})}>
     <NivoBar
       data={[
         { name: "Jim", age: 34 },
