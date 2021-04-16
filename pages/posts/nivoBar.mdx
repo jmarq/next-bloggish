@@ -1,4 +1,5 @@
 import NivoBar from "components/NivoBar";
+import NivoNetwork from "components/NivoNetwork";
 import css from "@styled-system/css";
 
 export const meta = {
@@ -24,6 +25,9 @@ export const meta = {
       yLabel="age"
       canvas
     />
+  </div>
+  <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
+    <NivoNetwork />
   </div>
   <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 0, flexBasis: "100%"})}>
     <NivoBar />
@@ -60,7 +64,6 @@ export const meta = {
    <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
     <NivoBar />
   </div>
-  
 </div>
 
 that's pretty cool that I can just plop a chart in the middle of a "markdown" page.
