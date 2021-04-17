@@ -2,9 +2,8 @@ import { ResponsiveNetwork } from "@nivo/network";
 import { ThemeContext } from "styled-components";
 import { useContext, useState } from "react";
 import networkData from "data/network.json";
-const NivoNetwork = () => {
-  const data = networkData;
-  console.log(data);
+
+const NivoNetwork = ({ data = networkData }) => {
   return (
     <ResponsiveNetwork
       margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
@@ -13,7 +12,7 @@ const NivoNetwork = () => {
       repulsivity={6}
       iterations={60}
       nodeColor={function (e) {
-        return e.color;
+        return e.color || "red";
       }}
       nodeBorderWidth={1}
       nodeBorderColor={{ from: "color", modifiers: [["darker", 0.8]] }}
