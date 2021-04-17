@@ -29,6 +29,9 @@ export const meta = {
   <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
     <NivoNetwork />
   </div>
+  <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 1, flexBasis: "400px"})}>
+    <NivoNetwork data={{nodes: [{id: 1, radius: 5}, {id: 2, radius: 5}], links: [{source: 1, target: 2}]}}/>
+  </div>
   <div style={{ height: 500}} css={css({minWidth:"400px", flexGrow: 1, flexShrink: 0, flexBasis: "100%"})}>
     <NivoBar />
   </div>

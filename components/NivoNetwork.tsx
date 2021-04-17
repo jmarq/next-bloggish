@@ -15,9 +15,13 @@ const NivoNetwork = ({ data = networkData }) => {
         return e.color || "red";
       }}
       nodeBorderWidth={1}
-      nodeBorderColor={{ from: "color", modifiers: [["darker", 0.8]] }}
+      // nodeBorderColor={{ from: "color", modifiers: [["darker", 0.8]] }}
+      // nodeBorderColor={"white"}
+      linkColor={function (e) {
+        return e.color || "#ccc";
+      }}
       linkThickness={function (e) {
-        return 2 * (2 - e.source.depth);
+        return 2 * (2 - e.source.depth || 1);
       }}
       motionStiffness={160}
       motionDamping={12}
