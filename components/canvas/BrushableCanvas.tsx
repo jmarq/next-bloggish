@@ -2,11 +2,16 @@ import { useRef, useEffect, useState } from "react";
 import { brush as d3Brush, D3BrushEvent } from "d3-brush";
 import { select as d3Select } from "d3";
 
-const BrushableCanvas = ({ width = 500, height = 500 }) => {
+const BrushableCanvas = ({
+  width = 500,
+  height = 500,
+  color = "#FF0000",
+  colorPicker = true,
+}) => {
   const canvas = useRef<HTMLCanvasElement>();
   const canvasContext = useRef<CanvasRenderingContext2D>();
   const canvasBrush = useRef<SVGGElement>();
-  const [paintColor, setPaintColor] = useState("#FF0000");
+  const [paintColor, setPaintColor] = useState(color);
   useEffect(() => {
     const brushElement = canvasBrush.current;
     if (brushElement && canvas.current) {
@@ -61,16 +66,18 @@ const BrushableCanvas = ({ width = 500, height = 500 }) => {
       >
         <g ref={canvasBrush}></g>
       </svg>
-      <div className="controls">
-        <input
-          type="color"
-          onChange={(ev) => {
-            setPaintColor(ev.target.value);
-            canvasContext.current.fillStyle = paintColor;
-          }}
-          value={paintColor}
-        />
-      </div>
+      {colorPicker && (
+        <div className="controls">
+          <input
+            type="color"
+            onChange={(ev) => {
+              setPaintColor(ev.target.value);
+              canvasContext.current.fillStyle = paintColor;
+            }}
+            value={paintColor}
+          />
+        </div>
+      )}
     </div>
   );
 };
