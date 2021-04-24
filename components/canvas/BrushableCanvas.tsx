@@ -7,6 +7,7 @@ const BrushableCanvas = ({
   height = 500,
   color = "#FF0000",
   colorPicker = true,
+  urlHandler = undefined,
 }) => {
   const canvas = useRef<HTMLCanvasElement>();
   const canvasContext = useRef<CanvasRenderingContext2D>();
@@ -23,10 +24,8 @@ const BrushableCanvas = ({
       console.log("starting brush setup");
       const brush = d3Brush()
         .on("end", (ev) => {
-          // console.log(ev);
         })
         .on("brush", (ev) => {
-          // console.log(ev);
           if (ev.mode == "drag") {
             const selectionWidth = ev.selection[1][0] - ev.selection[0][0];
             const selectionHeight = ev.selection[1][1] - ev.selection[0][1];
@@ -45,14 +44,6 @@ const BrushableCanvas = ({
               2 * Math.PI
             );
             context.fill();
-            // context.ellipse(0,0,10,10,0,0,Math.PI*2);
-
-            // context.fillRect(
-            //   ev.selection[0][0],
-            //   ev.selection[0][1],
-            //   selectionWidth,
-            //   selectionHeight
-            // );
           }
         });
       const selectedBrush = d3Select(brushElement as SVGGElement);
@@ -62,6 +53,13 @@ const BrushableCanvas = ({
       brushSelection.setAttribute("fill-opacity", "0.7");
     }
   }, [canvas.current, canvasBrush.current]);
+
+  const exportHandler = urlHandler || ((url) => {});
+  const exportImage = () => {
+    const url = canvas.current.toDataURL();
+    exportHandler(url);
+  }
+
   return (
     <div style={{ position: "relative" }}>
       <canvas
@@ -98,16 +96,23 @@ const BrushableCanvas = ({
         </defs>
         <g ref={canvasBrush}></g>
       </svg>
-      {colorPicker && (
+      {(colorPicker || urlHandler) && (
         <div className="controls">
-          <input
-            type="color"
-            onChange={(ev) => {
-              setPaintColor(ev.target.value);
-              canvasContext.current.fillStyle = paintColor;
-            }}
-            value={paintColor}
-          />
+          { colorPicker && 
+            <input
+              type="color"
+              onChange={(ev) => {
+                setPaintColor(ev.target.value);
+                canvasContext.current.fillStyle = paintColor;
+              }}
+              value={paintColor}
+            />
+          }
+          {
+            urlHandler && (
+              <button onClick={exportImage}>export image</button>
+            )
+          }
         </div>
       )}
     </div>
