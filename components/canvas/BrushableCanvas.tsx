@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { brush as d3Brush, D3BrushEvent } from "d3-brush";
 import { select as d3Select } from "d3";
 
@@ -13,6 +13,7 @@ const BrushableCanvas = ({
   const canvasContext = useRef<CanvasRenderingContext2D>();
   const canvasBrush = useRef<SVGGElement>();
   const [paintColor, setPaintColor] = useState(color);
+  const randomId = useMemo(() => ""+Math.floor(Math.random()*10000000), []);
   useEffect(() => {
     const brushElement = canvasBrush.current;
     if (brushElement && canvas.current) {
@@ -49,7 +50,7 @@ const BrushableCanvas = ({
       const selectedBrush = d3Select(brushElement as SVGGElement);
       brush(selectedBrush);
       const brushSelection = brushElement.querySelector("rect.selection");
-      brushSelection.setAttribute("fill", "url(#brush-preview)");
+      brushSelection.setAttribute("fill", `url(#brush-preview${randomId})`);
       brushSelection.setAttribute("fill-opacity", "0.7");
     }
   }, [canvas.current, canvasBrush.current]);
@@ -84,7 +85,7 @@ const BrushableCanvas = ({
       >
         <defs>
           <pattern
-            id="brush-preview"
+            id={`brush-preview${randomId}`}
             patternUnits="objectBoundingBox"
             width="100%"
             height="100%"
