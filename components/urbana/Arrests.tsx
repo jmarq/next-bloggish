@@ -13,6 +13,7 @@ const getData = async () => {
   return json.map((el) => ({
     age_at_arrest: Number(el.age_at_arrest),
     year_of_arrest: el.year_of_arrest,
+    arrest_code: el.arrest_code
   }));
 };
 
@@ -27,7 +28,8 @@ const DataViewer = () => {
           <NivoBar
             data={data}
             keys={["age_at_arrest"]}
-            indexBy={"year_of_arrest"}
+            indexBy={"arrest_code"}
+            canvas
           />
         </div>
       )}
