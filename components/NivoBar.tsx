@@ -15,7 +15,7 @@ import foodData from "data/food.json";
 // responsive component, otherwise height will be 0 and
 // no chart will be rendered.
 const NivoBar = ({
-  data = foodData,
+  data = foodData as any,
   keys = ["hot dog", "burger", "sandwich", "kebab", "fries", "donut"],
   indexBy = "country",
   yLabel = "hot dog",
