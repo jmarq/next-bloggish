@@ -25,34 +25,37 @@ const prepareData = (data) => {
     crimes = Array.from(new Set(crimes));
     console.log(crimes);
 
-    results = table
+    const groupedByRace = table
       .groupby({
         race: (d: any) => d.race,
       })
-      // .pivot("crime_category_description", { hmm: () => 1 })
-      // .pivot({ key: (d) => "hey" }, { value: (d) => op.sum(d) })
-      // // .count()
-      .objects({ grouped: "entries" });
-
+     
+    // grouped.print();
+    results = groupedByRace.objects({ grouped: "entries" });
+    // console.log(results);
     let finalResults = [];
     for (let entry of results) {
       const [race, list] = entry;
+      // nested table to group/count/pivot. is there a better way to do this?
       let entryTable = from(list);
-      let grouped = entryTable
-        .groupby("crime_category_description")
+      let groupedByCategory = entryTable
+        .groupby("crime_category_description");
+
+      // console.log(groupedByCategory.objects({grouped: "entries"}))
+      let pivoted = groupedByCategory
         .count()
         .pivot("crime_category_description", "count")
         .objects({ grouped: "object" });
+      // summary object
       let entryResults = {
         race,
-        ...grouped[0],
+        ...pivoted[0],
       };
       finalResults.push(entryResults);
     }
     results = finalResults;
   }
   results = Array.from(results);
-  // return results;
   return {
     preparedData: results,
     keys: crimes,
