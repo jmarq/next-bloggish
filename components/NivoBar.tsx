@@ -8,7 +8,7 @@ import {
   Data,
 } from "@nivo/bar";
 import { ThemeContext } from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import foodData from "data/food.json";
 
 // make sure parent container have a defined height when using
@@ -25,7 +25,11 @@ const NivoBar = ({
   const startingKeys = keys;
   const [currentKeys, setCurrentKeys] = useState(startingKeys);
   const [barColor, setBarColor] = useState(undefined);
-
+  useEffect(() => {
+    setCurrentKeys(keys);
+  }, [keys]);
+  console.log({currentKeys});
+  console.log({keys})
   const animationProps = canvas
     ? {}
     : {
