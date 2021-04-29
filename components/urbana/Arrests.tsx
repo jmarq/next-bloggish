@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import _, { set } from "lodash";
-import { table, from, op } from "arquero";
+import { from } from "arquero";
+import { ResponsiveCalendar } from "@nivo/calendar";
 import NivoBar from "components/NivoBar";
 
 const myClient = new QueryClient();
@@ -13,6 +14,41 @@ const getData = async () => {
   return json;
 };
 
+const fixDates = (data) => {
+  return data.map((row) => ({
+    ...row,
+    // date: new Date(row.date_of_arrest).toLocaleDateString("en-us",{month:"2-digit",day:"2-digit",year:"numeric"}).replaceAll("/","-"),
+    date: row.date_of_arrest.slice(0, 10), //YYYY-MM-DD
+  }));
+};
+
+// for calendar, we want
+/*
+Array<{
+    day:   string // format must be YYYY-MM-DD,
+    value: number //count
+}>
+*/
+
+const prepareCalendarData = (data) => {
+  let results = [];
+  if (data) {
+    const dataWithDates = fixDates(data);
+    let calendarTable = from(dataWithDates);
+    calendarTable = calendarTable.rename({
+      arrestee_sex: "race",
+      arrestee_race: "sex",
+    });
+    const groupedByDate = calendarTable
+      .groupby("date")
+      .count({ as: "value" })
+      .rename({ date: "day" })
+      .objects({ grouped: "entries" });
+    results = groupedByDate;
+  }
+  return results;
+};
+
 const prepareData = (data, breakdownColumn = "crime_category_description") => {
   console.log("preparing data");
   if (data) {
@@ -20,9 +56,15 @@ const prepareData = (data, breakdownColumn = "crime_category_description") => {
     console.log({ breakdownColumn });
     let keys = data.map((d) => d[breakdownColumn]);
     keys = Array.from(new Set(keys));
-    let table = from(data);
+    const dataWithDates = fixDates(data);
+    console.log(dataWithDates);
+
+    let table = from(dataWithDates);
     // sigh
     table = table.rename({ arrestee_sex: "race", arrestee_race: "sex" });
+    /*
+    new Date(d).toLocaleDateString("en-us",{month:"2-digit",day:"2-digit",year:"numeric"}).replaceAll("/","-")
+    */
     const groupedObjects = table
       .groupby("race", breakdownColumn)
       .count()
@@ -47,53 +89,6 @@ const prepareData = (data, breakdownColumn = "crime_category_description") => {
   }
 };
 
-// this got kind of nasty. need more practice with cleanly doing nested rollups in Arquero
-// const prepareData = (data) => {
-//   let results = [];
-//   let crimes = [];
-//   if (data) {
-//     let table = from(data);
-//     // sigh
-//     table = table.rename({ arrestee_sex: "race", arrestee_race: "sex" });
-//     crimes = data.map((d) => d.crime_category_description);
-//     crimes = Array.from(new Set(crimes));
-//     console.log(crimes);
-
-//     const groupedByRace = table.groupby({
-//       race: (d: any) => d.race,
-//     });
-
-//     // grouped.print();
-//     results = groupedByRace.objects({ grouped: "entries" });
-//     // console.log(results);
-//     let finalResults = [];
-//     for (let entry of results) {
-//       const [race, list] = entry;
-//       // nested table to group/count/pivot. is there a better way to do this?
-//       let entryTable = from(list);
-//       let groupedByCategory = entryTable.groupby("crime_category_description");
-
-//       // console.log(groupedByCategory.objects({grouped: "entries"}))
-//       let pivoted = groupedByCategory
-//         .count()
-//         .pivot("crime_category_description", "count")
-//         .objects({ grouped: "object" });
-//       // summary object
-//       let entryResults = {
-//         race,
-//         ...pivoted[0],
-//       };
-//       finalResults.push(entryResults);
-//     }
-//     results = finalResults;
-//   }
-//   results = Array.from(results);
-//   return {
-//     preparedData: results,
-//     keys: crimes,
-//   };
-// };
-
 const DataViewer = () => {
   const { data, isLoading, error } = useQuery("arrests", getData);
   const [breakdownCol, setBreakdownCol] = useState("arrest_type_description");
@@ -103,6 +98,11 @@ const DataViewer = () => {
     () => prepareData(data, breakdownCol),
     [data, breakdownCol]
   );
+
+  const calendarData = useMemo(() => {
+    return prepareCalendarData(data);
+  }, [data]);
+  console.log({ calendarData });
   console.log({ keys });
   return (
     <div>
@@ -126,6 +126,33 @@ const DataViewer = () => {
               <option value="crime_category_description">crime</option>
               <option value="arrest_type_description">arrest type</option>
             </select>
+          </div>
+          <div style={{ height: 400, backgroundColor: "#ddd" }}>
+            <ResponsiveCalendar
+              data={calendarData}
+              from="2021-01-01"
+              to="2021-04-30"
+              emptyColor="#eeeeee"
+              colors={["#61cdbb", "#97e3d5", "#e8c1a0", "#f47560", "red"]}
+              margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+              yearSpacing={40}
+              monthBorderColor="#888"
+              monthBorderWidth={1}
+              dayBorderWidth={2}
+              dayBorderColor="#ffffff"
+              legends={[
+                {
+                  anchor: "bottom-right",
+                  direction: "row",
+                  translateY: -36,
+                  itemCount: 4,
+                  itemWidth: 42,
+                  itemHeight: 36,
+                  itemsSpacing: 14,
+                  itemDirection: "right-to-left",
+                },
+              ]}
+            />
           </div>
         </>
       )}
