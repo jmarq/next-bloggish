@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
-import _, { set } from "lodash";
 import { from } from "arquero";
 import { ResponsiveCalendar } from "@nivo/calendar";
 import NivoBar from "components/NivoBar";
@@ -9,6 +8,7 @@ const myClient = new QueryClient();
 const getData = async () => {
   const response = await fetch(
     "https://data.urbanaillinois.us/resource/afbd-8beq.json"
+    // "https://data.urbanaillinois.us/resource/afbd-8beq.json?arrest_type_description=ON%20VIEW&$order=date_of_arrest%20DESC"
   );
   const json = await response.json();
   return json;
@@ -30,7 +30,7 @@ Array<{
 }>
 */
 
-const prepareCalendarData = (data) => {
+const prepareCalendarData = (data, dateFilter=undefined) => {
   let results = [];
   if (data) {
     const dataWithDates = fixDates(data);
@@ -39,6 +39,9 @@ const prepareCalendarData = (data) => {
       arrestee_sex: "race",
       arrestee_race: "sex",
     });
+    if(dateFilter){
+      calendarTable = calendarTable.params({ dateFilterParam: dateFilter }).filter((d,$) => d.date == $.dateFilterParam ).reify();
+    }
     const groupedByDate = calendarTable
       .groupby("date")
       .count({ as: "value" })
@@ -49,7 +52,7 @@ const prepareCalendarData = (data) => {
   return results;
 };
 
-const prepareData = (data, breakdownColumn = "crime_category_description") => {
+const prepareData = (data, breakdownColumn = "crime_category_description", dateFilter=undefined) => {
   console.log("preparing data");
   if (data) {
     console.log("have data to prepare");
@@ -60,21 +63,22 @@ const prepareData = (data, breakdownColumn = "crime_category_description") => {
     console.log(dataWithDates);
 
     let table = from(dataWithDates);
-    // sigh
+    // sigh. the Urbana data portal seems to have swapped these two columns after a certain date
     table = table.rename({ arrestee_sex: "race", arrestee_race: "sex" });
-    /*
-    new Date(d).toLocaleDateString("en-us",{month:"2-digit",day:"2-digit",year:"numeric"}).replaceAll("/","-")
-    */
+    if(dateFilter){
+      table = table.params({ dateFilterParam: dateFilter }).filter((d,$) => d.date == $.dateFilterParam ).reify();
+    }
+
     const groupedObjects = table
       .groupby("race", breakdownColumn)
       .count()
+      // make sure all combos of race/column are represented with at least zeroes
       .impute({ count: () => 0 }, { expand: ["race", breakdownColumn] })
-      .objects({ grouped: true });
-    const groupedTable = from(groupedObjects);
-    const results = groupedTable
       .groupby("race")
       .pivot(breakdownColumn, "count")
       .objects({ grouped: true });
+
+    const results = groupedObjects;
     console.log(results);
     // return results;
     return {
@@ -91,17 +95,18 @@ const prepareData = (data, breakdownColumn = "crime_category_description") => {
 
 const DataViewer = () => {
   const { data, isLoading, error } = useQuery("arrests", getData);
+
   const [breakdownCol, setBreakdownCol] = useState("arrest_type_description");
-  // console.log(prepareData(data));
-  // newPrepareData(data);
+  const [filteredDate, setFilteredDate] = useState(undefined);
+
   const { preparedData, keys } = useMemo(
-    () => prepareData(data, breakdownCol),
-    [data, breakdownCol]
+    () => prepareData(data, breakdownCol,filteredDate),
+    [data, breakdownCol, filteredDate]
   );
 
   const calendarData = useMemo(() => {
-    return prepareCalendarData(data);
-  }, [data]);
+    return prepareCalendarData(data, filteredDate);
+  }, [data, filteredDate]);
   console.log({ calendarData });
   console.log({ keys });
   return (
@@ -143,6 +148,13 @@ const DataViewer = () => {
               monthBorderWidth={1}
               dayBorderWidth={2}
               dayBorderColor="#ffffff"
+              onClick={(day,_ev)=>{
+                if(filteredDate) {
+                  setFilteredDate(undefined);
+                } else {
+                  setFilteredDate(day.day)
+                }
+              }}
               legends={[
                 {
                   anchor: "bottom-right",
