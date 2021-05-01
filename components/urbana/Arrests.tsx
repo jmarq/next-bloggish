@@ -2,8 +2,8 @@ import React, { useMemo, useState } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { from } from "arquero";
 import { ResponsiveCalendar } from "@nivo/calendar";
-import NivoBar from "components/NivoBar";
-import NivoCalendar from "components/NivoCalendar";
+import NivoBar from "components/charts/NivoBar";
+import NivoCalendar from "components/charts/NivoCalendar";
 
 const myClient = new QueryClient();
 const getData = async () => {
