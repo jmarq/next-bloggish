@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 import { from } from "arquero";
 import { ResponsiveCalendar } from "@nivo/calendar";
 import NivoBar from "components/NivoBar";
+import NivoCalendar from "components/NivoCalendar";
 
 const myClient = new QueryClient();
 const getData = async () => {
@@ -30,7 +31,7 @@ Array<{
 }>
 */
 
-const prepareCalendarData = (data, dateFilter=undefined) => {
+const prepareCalendarData = (data, dateFilter = undefined) => {
   let results = [];
   if (data) {
     const dataWithDates = fixDates(data);
@@ -39,8 +40,11 @@ const prepareCalendarData = (data, dateFilter=undefined) => {
       arrestee_sex: "race",
       arrestee_race: "sex",
     });
-    if(dateFilter){
-      calendarTable = calendarTable.params({ dateFilterParam: dateFilter }).filter((d,$) => d.date == $.dateFilterParam ).reify();
+    if (dateFilter) {
+      calendarTable = calendarTable
+        .params({ dateFilterParam: dateFilter })
+        .filter((d, $) => d.date == $.dateFilterParam)
+        .reify();
     }
     const groupedByDate = calendarTable
       .groupby("date")
@@ -52,7 +56,11 @@ const prepareCalendarData = (data, dateFilter=undefined) => {
   return results;
 };
 
-const prepareData = (data, breakdownColumn = "crime_category_description", dateFilter=undefined) => {
+const prepareData = (
+  data,
+  breakdownColumn = "crime_category_description",
+  dateFilter = undefined
+) => {
   console.log("preparing data");
   if (data) {
     console.log("have data to prepare");
@@ -65,8 +73,11 @@ const prepareData = (data, breakdownColumn = "crime_category_description", dateF
     let table = from(dataWithDates);
     // sigh. the Urbana data portal seems to have swapped these two columns after a certain date
     table = table.rename({ arrestee_sex: "race", arrestee_race: "sex" });
-    if(dateFilter){
-      table = table.params({ dateFilterParam: dateFilter }).filter((d,$) => d.date == $.dateFilterParam ).reify();
+    if (dateFilter) {
+      table = table
+        .params({ dateFilterParam: dateFilter })
+        .filter((d, $) => d.date == $.dateFilterParam)
+        .reify();
     }
 
     const groupedObjects = table
@@ -78,11 +89,8 @@ const prepareData = (data, breakdownColumn = "crime_category_description", dateF
       .pivot(breakdownColumn, "count")
       .objects({ grouped: true });
 
-    const results = groupedObjects;
-    console.log(results);
-    // return results;
     return {
-      preparedData: results,
+      preparedData: groupedObjects,
       keys,
     };
   } else {
@@ -100,7 +108,7 @@ const DataViewer = () => {
   const [filteredDate, setFilteredDate] = useState(undefined);
 
   const { preparedData, keys } = useMemo(
-    () => prepareData(data, breakdownCol,filteredDate),
+    () => prepareData(data, breakdownCol, filteredDate),
     [data, breakdownCol, filteredDate]
   );
 
@@ -132,47 +140,24 @@ const DataViewer = () => {
               <option value="arrest_type_description">arrest type</option>
             </select>
           </div>
-          <div style={{ height: 400, backgroundColor: "#ddd" }}>
-            {/* maybe add a NivoCalendar component to abstract away sensible defaults */}
-            <ResponsiveCalendar
+          <div style={{ backgroundColor: "#ccc" }}>
+            <NivoCalendar
+              height={400}
               data={calendarData}
               // todo: determine from/to extent based on range of data passed in
               from="2021-01-01"
               to="2021-04-30"
-              emptyColor="#eeeeee"
-              // maybe add color stops to theme data?
-              colors={["#61cdbb", "#97e3d5", "#e8c1a0", "#f47560", "red"]}
-              margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
-              yearSpacing={40}
-              monthBorderColor="#888"
-              monthBorderWidth={1}
-              dayBorderWidth={2}
-              dayBorderColor="#ffffff"
-              onClick={(day,_ev)=>{
-                if(filteredDate) {
+              onClick={(day, _ev) => {
+                if (filteredDate) {
                   setFilteredDate(undefined);
                 } else {
-                  setFilteredDate(day.day)
+                  setFilteredDate(day.day);
                 }
               }}
-              legends={[
-                {
-                  anchor: "bottom-right",
-                  direction: "row",
-                  // this seems odd, why was the legend originally so far down?
-                  translateY: -36,
-                  itemCount: 4,
-                  itemWidth: 42,
-                  itemHeight: 36,
-                  itemsSpacing: 14,
-                  itemDirection: "right-to-left",
-                },
-              ]}
             />
           </div>
         </>
       )}
-      {/* {JSON.stringify(data)} */}
     </div>
   );
 };
