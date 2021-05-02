@@ -1,7 +1,11 @@
+import { useContext } from "react";
 import { VegaLite } from "react-vega";
 import { TopLevelSpec } from "vega-lite";
+import { ThemeContext } from "styled-components";
 
 const VegaBar = () => {
+  const theme = useContext(ThemeContext);
+
   const spec: TopLevelSpec = {
     width: 400,
     height: 200,
@@ -9,6 +13,7 @@ const VegaBar = () => {
     encoding: {
       x: { field: "a", type: "ordinal" },
       y: { field: "b", type: "quantitative" },
+      color: { value: theme.colors.accent },
     },
     data: { name: "table" }, // note: vega-lite data attribute is a plain object instead of an array
   };
