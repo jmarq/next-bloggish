@@ -1,8 +1,13 @@
-import VegaBar from 'components/charts/vega/VegaBar';
+import VegaBar from "components/charts/vega/VegaBar";
 
 # a vega chart in mdx/next?
 
-<VegaBar/>
-<VegaBar/>
-<VegaBar/>
-<VegaBar/>
+<VegaBar />
+<VegaBar
+  data={[
+    { a: "A", b: 1 },
+    { a: "B", b: 2 },
+    { a: "C", b: 3 },
+  ]}
+  themeColor="primary"
+/>
