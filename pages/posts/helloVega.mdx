@@ -1,4 +1,4 @@
-import VegaBar from "components/charts/vega/VegaBar";
+import VegaBar, { VegaBar2 } from "components/charts/vega/VegaBar";
 
 # a vega chart in mdx/next?
 
@@ -11,3 +11,17 @@ import VegaBar from "components/charts/vega/VegaBar";
   ]}
   themeColor="primary"
 />
+
+# this chart was made with createClassFromSpec from react-vega
+
+<VegaBar2
+  data={{
+    data: [
+      { a: "A", b: 3 },
+      { a: "B", b: 2 },
+      { a: "C", b: 1 },
+    ],
+  }}
+/>
+
+I wonder if/how I can pass custom props into it?

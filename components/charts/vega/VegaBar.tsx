@@ -1,9 +1,10 @@
 import { useContext } from "react";
-import { VegaLite } from "react-vega";
+import { VegaLite, createClassFromSpec } from "react-vega";
+import vegaLite from "vega-lite";
 import { TopLevelSpec } from "vega-lite";
 import { ThemeContext } from "styled-components";
 
-const VegaBar = ({data=undefined, themeColor="accent"}) => {
+const VegaBar = ({ data = undefined, themeColor = "accent" }) => {
   const theme = useContext(ThemeContext);
 
   const spec: TopLevelSpec = {
@@ -34,5 +35,19 @@ const VegaBar = ({data=undefined, themeColor="accent"}) => {
 
   return <VegaLite spec={spec} data={barData} />;
 };
+
+const spec: TopLevelSpec = {
+  width: 400,
+  height: 200,
+  mark: "bar",
+  encoding: {
+    x: { field: "a", type: "ordinal" },
+    y: { field: "b", type: "quantitative" },
+  },
+  data: { name: "data" }, // note: vega-lite data attribute is a plain object instead of an array
+};
+const VegaBar2 = createClassFromSpec({spec: spec} );
+
+export {VegaBar2};
 
 export default VegaBar;
