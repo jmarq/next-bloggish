@@ -145,8 +145,8 @@ const DataViewer = () => {
               height={400}
               data={calendarData}
               // todo: determine from/to extent based on range of data passed in
-              from="2021-01-01"
-              to="2021-04-30"
+              from={calendarData.slice(-1)[0]?.day}
+              to={calendarData[0]?.day}
               onClick={(day, _ev) => {
                 if (filteredDate) {
                   setFilteredDate(undefined);
